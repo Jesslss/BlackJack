@@ -1,0 +1,523 @@
+
+package PacoteBlackJack;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+/**
+ *
+ * @author Jess
+ */
+public class Baralho {
+   private List<Carta> cartas;
+
+    Baralho(){
+        cartas = new ArrayList<Carta>(); 
+        
+        String numero = "0";
+        String naipe = "fake";
+        int valor = 0;
+        
+        for (int num=1; num<14; num++){
+            for (int naip=1; naip<5; naip++){
+                Carta c = new Carta(); 
+                
+                if (num==1){
+                    numero="A";
+                    valor=1;
+                }
+                else if (num==11){
+                    numero="J";
+                    valor=11;
+                }
+                else if (num==12){
+                    numero="Q";
+                    valor=12;
+                }
+                else if (num==13){
+                    numero="K";
+                    valor=13;
+                }
+                else{
+                    numero = String.valueOf(num);
+                    valor = num;
+                }
+                
+                
+                switch (naip) {
+                    case 1:  naipe = "Paus"; break;
+                    case 2:  naipe = "Ouros"; break;
+                    case 3:  naipe = "Copas";  break;
+                    case 4:  naipe = "Espadas"; break;
+                    default: naipe = "fake"; break;
+                }
+                
+                c.setNumero(numero);
+                c.setNaipe(naipe);
+                c.setValor(valor);
+                
+                
+                this.cartas.add(c);
+            }
+        }
+    }
+    
+    public void listarCartas(){
+        for (Carta c : this.cartas) 
+            System.out.println(c.getNumero() +" de "+c.getNaipe() +". Valor: "+ c.getValor());
+    }
+    
+    protected void embaralhar(){
+        
+        Random random = new Random();
+        Carta c1 = new Carta();
+        for (int i=0; i<=500; i++){ 
+            c1 = this.cartas.remove( random.nextInt(this.cartas.size()-1)   ); 
+            this.cartas.add(c1);
+        }
+        
+    }
+    
+     protected Carta pegarCarta() throws ExcecaoBaralhoVazio{
+        if (cartas.size()>0){
+            return cartas.remove(0); 
+        }
+        else{
+            throw new ExcecaoBaralhoVazio();
+        }
+        
+    }
+}
+
+
+
+package PacoteBlackJack;
+
+/**
+ *
+ * @author Jess
+ */
+public class Carta {
+    private String numero;
+    private String naipe;
+    private int valor;
+
+    Carta(){
+        this.numero="0";
+        this.naipe="fake";
+        this.valor=0;
+    }
+
+    public Carta(String numero_, String naipe_, int valor_) {
+        this.numero = numero_;
+        this.naipe = naipe_;
+        this.valor = valor_;
+    }
+
+    public String getNumero() {
+        return numero;
+    }
+
+    public void setNumero(String numero) {
+        this.numero = numero;
+    }
+
+    public String getNaipe() {
+        return naipe;
+    }
+
+    public void setNaipe(String naipe) {
+        this.naipe = naipe;
+    }
+
+    public int getValor() {
+        return valor;
+    }
+
+    public void setValor(int valor) {
+        this.valor = valor;
+    }
+          
+    
+}
+
+
+
+package PacoteBlackJack;
+
+/**
+ *
+ * @author Jess
+ */
+class ExcecaoBaralhoVazio extends Exception {
+    public ExcecaoBaralhoVazio() {
+        super(" Baralho Vazio. ");
+    }
+    
+    @Override
+    public String getMessage(){
+        return " Baralho Vazio. ";
+    }
+}
+
+
+
+
+
+package PacoteBlackJack;
+
+/**
+ *
+ * @author Jess
+ */
+public class Humano {
+    private String nome;
+    private String data_nascimento;
+    private String cor_olhos;
+    private String nome_pai;
+    private String nome_mae;
+
+    public Humano(String nome, String data_nascimento, String cor_olhos, String nome_pai, String nome_mae) {
+        this.nome = nome;
+        this.data_nascimento = data_nascimento;
+        this.cor_olhos = cor_olhos;
+        this.nome_pai = nome_pai;
+        this.nome_mae = nome_mae;
+    }
+   
+    
+    protected String getNome() {
+        return nome;
+    }
+
+    protected void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    protected String getData_nascimento() {
+        return data_nascimento;
+    }
+
+    protected void setData_nascimento(String data_nascimento) {
+        this.data_nascimento = data_nascimento;
+    }
+
+    protected String getCor_olhos() {
+        return cor_olhos;
+    }
+
+    protected void setCor_olhos(String cor_olhos) {
+        this.cor_olhos = cor_olhos;
+    }
+
+    protected String getNome_pai() {
+        return nome_pai;
+    }
+
+    protected void setNome_pai(String nome_pai) {
+        this.nome_pai = nome_pai;
+    }
+
+    protected String getNome_mae() {
+        return nome_mae;
+    }
+
+    protected void setNome_mae(String nome_mae) {
+        this.nome_mae = nome_mae;
+    }
+    
+    
+}
+
+
+
+package PacoteBlackJack;
+
+import java.util.ArrayList;
+import java.util.List;
+/**
+ *
+ * @author Jess
+ */
+public class Jogador extends Pessoa{
+    
+    private String email;
+    private List<Carta> cartasSacadas;
+
+    public Jogador(String email, int cpf, String estado_civil, String nacionalidade, String nome, String data_nascimento, String cor_olhos, String nome_pai, String nome_mae) {
+        super(cpf, estado_civil, nacionalidade, nome, data_nascimento, cor_olhos, nome_pai, nome_mae);
+        this.email = email;
+         cartasSacadas = new ArrayList<Carta>();
+    }
+
+    protected String getEmail() {
+        return email;
+    }
+
+    protected void setEmail(String email) {
+        this.email = email;
+    }
+
+    
+    protected void imprimeDadosJogador(){
+        System.out.println("Nome: "+this.getNome());
+        System.out.println("Email: "+this.getEmail());
+        System.out.println("CPF: "+this.getCpf());
+        System.out.println("Estado civil: "+this.getEstado_civil());
+        System.out.println("Nacionalidade: "+this.getNacionalidade());
+        System.out.println("Data de nascimento: "+this.getData_nascimento());
+        System.out.println("Cor dos olhos: "+this.getCor_olhos());
+        System.out.println("Nome do pai: "+this.getNome_pai());
+        System.out.println("Nome da mãe: "+this.getNome_mae());
+    }
+
+    public void mensagemVitoria(){
+        System.out.println("Ganhei! O outro jogador é muito noob, boa sorte na próxima vez!!");
+    }
+    
+    protected int getPontos(){
+        int total_pontos = 0;
+        for (Carta c : this.cartasSacadas) {
+            total_pontos += c.getValor();
+        }
+        return total_pontos;
+    }
+    
+    public void adicionarCartaSacada(Carta c) {
+        cartasSacadas.add(c);
+    }
+}
+
+
+
+
+
+
+package PacoteBlackJack;
+
+import java.util.Scanner;
+
+/**
+ *
+ * @author Jess
+ */
+public class Mesa {
+    private Jogador jogador1;
+    private Jogador jogador2;
+    private Baralho baralho;
+    
+    public Mesa() {
+        this.jogador1 = new Jogador("joao@exemple.com.br",00011122233,"Solteiro ", " Brasileiro ","João",  "28/03/1999"," Castanhos "," José "," Francisca ");
+        this.jogador2 = new Jogador("maria@exemple.com.br",00022233344," Solteira ", " Brasileira "," Maria ","20/01/2000"," Azul "," Enzo "," Valentina ");
+        baralho = new Baralho();
+    }
+
+    Mesa(Jogador jogador1_, Jogador jogador2_) {
+        this.jogador1 = jogador1_;
+        this.jogador2 = jogador2_;
+    }
+    
+    public String getNomeJogador1(){
+        return this.jogador1.getNome();
+    }
+    
+    public String getNomeJogador2(){
+        return this.jogador2.getNome();
+    }
+    
+    public void imprimeDadosJogador1(){
+        this.jogador1.imprimeDadosJogador();
+    }
+    
+    public void imprimeDadosJogador2(){
+        this.jogador2.imprimeDadosJogador();
+    }
+    
+    public void listarCartas(){
+        this.baralho.listarCartas();
+    }
+    
+    public void embaralhar(){
+        baralho.embaralhar();
+    }
+    
+    protected Carta pegarCarta() throws ExcecaoBaralhoVazio{
+        return baralho.pegarCarta();
+        
+    }
+    
+    protected void mostrarPlacar(){
+        System.out.println(jogador1.getNome()+": "+this.jogador1.getPontos());
+        System.out.println(jogador2.getNome()+": "+this.jogador2.getPontos());
+    }
+    
+    public void jogar() {
+        this.baralho.embaralhar(); 
+        boolean ambosPararam = true; 
+        Scanner leitor = new Scanner(System.in); 
+        String opcao; 
+        Carta carta1 = new Carta(); 
+        Carta carta2 = new Carta(); 
+        do{
+            System.out.println("\n\n\n");
+            this.mostrarPlacar(); 
+            ambosPararam=true;
+            //Jogador 1
+            System.out.println(jogador1.getNome()+": Deseja sacar a Carta? 1- Sim; \t 2- Não; ");
+            opcao = leitor.nextLine(); 
+            if (opcao.equals("1")) {
+                
+                ambosPararam = false; 
+                try{
+                    carta1 = this.baralho.pegarCarta(); 
+                }
+                catch(ExcecaoBaralhoVazio ex){
+                    System.out.println(ex.getMessage());
+                    System.exit(0);
+                }
+                
+                jogador1.adicionarCartaSacada(carta1); 
+            }
+            else{
+                System.out.println(" \t O jogador não puxou carta. ");
+                ambosPararam = ambosPararam && true;
+            }
+           
+            if (jogador1.getPontos()>=21)
+                ambosPararam = true;
+            else{
+                //Jogador 2
+                System.out.println("\n\n\n");
+                this.mostrarPlacar();
+                System.out.println(jogador2.getNome()+":: Deseja sacar a Carta? 1- Sim; \t 2- Não; ");
+                opcao = leitor.nextLine(); 
+                if (opcao.equals("1")) {
+                    
+                    ambosPararam = false; 
+                    try{
+                        carta2 = this.baralho.pegarCarta(); 
+                    }
+                    catch(ExcecaoBaralhoVazio ex){
+                        System.out.println(ex.getMessage());
+                        System.exit(0);
+                    }
+
+                    jogador2.adicionarCartaSacada(carta2); 
+                }
+                else{
+                    System.out.println(" \t Jogador não puxou carta. ");
+                    ambosPararam = ambosPararam && true;
+                }
+            }
+        } while ( (jogador1.getPontos()<21) && (jogador2.getPontos()<21) && (ambosPararam==false)   );
+        
+        //Verifica quem foi o vencedor
+        System.out.println("\tPLACAR FINAL");
+        this.mostrarPlacar();
+        if (jogador1.getPontos()==jogador2.getPontos()) 
+             System.out.println("\tEMPATE");
+        else{
+            if ( (jogador1.getPontos() > jogador2.getPontos()) && jogador1.getPontos()<=21 ){ 
+                     System.out.println(jogador1.getNome()+": VENCEU");
+                     System.out.print(jogador1.getNome()+" DIZ: ");
+                     this.jogador1.mensagemVitoria();
+            }
+            else{
+                 System.out.println(jogador2.getNome()+": VENCEU");
+                 this.jogador2.mensagemVitoria();
+                    System.out.print(jogador2.getNome()+" DIZ: ");
+                    this.jogador2.mensagemVitoria();
+                 }
+        }
+   }
+}
+
+
+
+
+
+
+package PacoteBlackJack;
+
+/**
+ *
+ * @author Jess
+ */
+public class Pessoa extends Humano{
+    
+    private int cpf;
+    private String estado_civil;
+    private String nacionalidade;
+        
+    public Pessoa(int cpf, String estado_civil, String nacionalidade, String nome, String data_nascimento, String cor_olhos, String nome_pai, String nome_mae) {
+        super(nome, data_nascimento, cor_olhos, nome_pai, nome_mae);
+        this.cpf = cpf;
+        this.estado_civil = estado_civil;
+        this.nacionalidade = nacionalidade;
+    }
+    
+    protected int getCpf() {
+        return cpf;
+    }
+
+    protected void setCpf(int cpf) {
+        this.cpf = cpf;
+    }
+
+    protected String getEstado_civil() {
+        return estado_civil;
+    }
+
+    protected void setEstado_civil(String estado_civil) {
+        this.estado_civil = estado_civil;
+    }
+
+    protected String getNacionalidade() {
+        return nacionalidade;
+    }
+
+    protected void setNacionalidade(String nacionalidade) {
+        this.nacionalidade = nacionalidade;
+    }
+
+    public void mensagemVitoria(){
+        System.out.println("\tGanhei!");
+    }
+    
+       
+}
+
+
+
+package PacoteBlackJack;
+
+/**
+ *
+ * @author Jess
+ */
+public class Teste {
+    public static void main(String[] args) throws ExcecaoBaralhoVazio {
+              
+       
+        
+        
+        Mesa mesa = new Mesa();
+        
+        mesa.jogar();
+        
+        
+    }
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
