@@ -1,0 +1,2 @@
+# BlackJack
+Projeto blackjack (Java)  Um baralho de 52 cartas (A ao K, 4 naipes) embaralhado e posto sobre a mesa. Dois jogadores que puxarão deste baralho, uma carta por vez. Eles iniciarão a partida com nenhuma carta na mão.  O jogo termina quando: 1) Ambos os jogadores decidem finalizar suas jogadas na mesma rodada (ganha o que tem mais pontos); OU 2) Um dos jogadores passa de 21 pontos (este perde a partida e o seu adversário ganha); OU 3) Quando um dos jogadores iguala 21 pontos, ele ganha automaticamente a partida. 
